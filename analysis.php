@@ -2,26 +2,7 @@
 <?php require_once("../includes/database.class.php");     ?>
 
 <?php
-// if(isset($_POST["export"]))
-{
-    $table = "exam_details as ED 
-        LEFT JOIN master_college as MClg ON MClg.id = ED.college_id
-        LEFT JOIN exam_user as EU ON EU.exam_id = ED.id
-        LEFT JOIN master_user as MU ON MU.id = EU.user_id ";
-    $where = "1 ORDER BY seat_no ASC";
-    $select = "
-        (SELECT COUNT(id) FROM `exam_user`) as total_appeared,
-        (SELECT COUNT(id) FROM `exam_user` WHERE (result LIKE 'FIRST CLASS DIST.')) as total_dist,
-        (SELECT COUNT(id) FROM `exam_user` WHERE (result LIKE 'FIRST CLASS' OR  result LIKE 'FIRST CLASS CON')) as total_first,
-        (SELECT COUNT(id) FROM `exam_user` WHERE (result LIKE 'SECOND CLASS' OR  result LIKE 'SECOND CLASS CON')) as total_second,
-        (SELECT COUNT(id) FROM `exam_user` WHERE (result LIKE 'A.T.K.T.')) as total_atkt,
-        (SELECT COUNT(id) FROM `exam_user` WHERE (result LIKE 'FAIL')) as total_fail
-    ";
-    $summary = $dbObj->fetchSingle($table, $where, $select);
-    
-    $total_pass=intval($summary["total_dist"])+intval($summary["total_first"])+intval($summary["total_second"]);
-    $result = round(($total_pass/(intval($summary["total_appeared"])))*100);
-    
+
 
     $total_atkt= intval($summary["total_atkt"]);
     $total_appeared= intval($summary["total_appeared"]);
